@@ -3,9 +3,24 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
 import './Navbar.css';
 
+const DEFAULT_SECTION = 'inicio'
+
 function Navbar() {
   const [activeSection, setActiveSection] = useState(null);
   const sectionsRef = useRef([]);
+
+  useEffect(() => {
+    sectionsRef.current = Array.from(document.querySelectorAll('[data-section]'));
+    const currentHash = window.location.hash.slice(1);
+
+    scrollTo(currentHash);
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleScroll = () => {
     const pageYOffset = window.pageYOffset;
@@ -23,39 +38,24 @@ function Navbar() {
     setActiveSection(newActiveSection);
   };
 
-  useEffect(() => {
-    sectionsRef.current = Array.from(document.querySelectorAll('[data-section]'));
-    const currentHash = window.location.hash.slice(1);
-    const targetSection = sectionsRef.current.find((section) => section.id === currentHash);
-
-    if (targetSection) {
-      window.scrollTo({
-        top: targetSection.offsetTop - 100,
-        behavior: 'smooth',
-      });
-
-      setActiveSection(currentHash);
-    } else {
-      setActiveSection('inicio');
-    }
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const handleSmoothScroll = (event, sectionId) => {
-    event.preventDefault();
-    setActiveSection(sectionId);
+  const scrollTo = (sectionId) => {
     const section = sectionsRef.current.find((section) => section.id === sectionId);
+
     if (section) {
+      setActiveSection(sectionId);
+
       window.scrollTo({
         top: section.offsetTop - 100,
         behavior: 'smooth',
       });
+    } else {
+      setActiveSection(DEFAULT_SECTION);
     }
+  }
+
+  const handleSmoothScroll = (event, sectionId) => {
+    event.preventDefault();
+    scrollTo(sectionId);
   };
 
   const activeClassName = (sectionName) => {
