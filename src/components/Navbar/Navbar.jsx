@@ -25,14 +25,6 @@ function Navbar() {
 
   useEffect(() => {
     sectionsRef.current = Array.from(document.querySelectorAll('[data-section]'));
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
     const currentHash = window.location.hash.slice(1);
     const targetSection = sectionsRef.current.find((section) => section.id === currentHash);
 
@@ -46,6 +38,12 @@ function Navbar() {
     } else {
       setActiveSection('inicio');
     }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleSmoothScroll = (event, sectionId) => {
@@ -127,8 +125,6 @@ function Navbar() {
           </ul>
         </nav>
       </header>
-
-      {/* Resto del contenido de la página */}
     </>
   );
 }
