@@ -7,6 +7,7 @@ const DEFAULT_SECTION = 'inicio'
 
 function Navbar() {
   const [activeSection, setActiveSection] = useState(null);
+  const [headerClassName, setHeaderClassName] = useState('');
   const sectionsRef = useRef([]);
 
   useEffect(() => {
@@ -23,8 +24,11 @@ function Navbar() {
   }, []);
 
   const handleScroll = () => {
-    const pageYOffset = window.pageYOffset;
     let newActiveSection = null;
+    const pageYOffset = window.pageYOffset;
+    const classForHeader = pageYOffset > 0 ? 'navbar-shadow' : ''
+
+    setHeaderClassName(classForHeader)
 
     sectionsRef.current.forEach((section) => {
       const sectionHeight = section.offsetHeight;
@@ -64,7 +68,7 @@ function Navbar() {
 
   return (
     <>
-      <header>
+      <header className={headerClassName}>
         <img className="logo" src={Logo} alt="Dimension Fungi" />
         <nav>
           <ul className="navbar">
