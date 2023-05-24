@@ -1,86 +1,3 @@
-// import React, { useState, useEffect, useRef } from 'react';
-// import Logo from '../../assets/logo.png';
-// import './Navbar.css'
-
-// function Navbar() {
-//   const [activeSection, setActiveSection] = useState(null);
-//   const [initialized, setInitialized] = useState(false);
-//   const sectionsRef = useRef([]);
-
-//   const handleScroll = () => {
-//     const pageYOffset = window.pageYOffset;
-//     let newActiveSection = null;
-
-//     sectionsRef.current.forEach((section) => {
-//       const sectionHeight = section.offsetHeight;
-//       const sectionOffsetTop = section.offsetTop - 101;
-//       // console.log('sectionOffsetTop ' + section.id, sectionOffsetTop)
-//       // console.log('sectionHeight ' + section.id, sectionHeight)
-//       // console.log('suma', sectionOffsetTop + sectionHeight)
-//       // console.log('pageYOffset', pageYOffset)
-//       // console.log('pageYOffset >= sectionOffsetTop', pageYOffset >= sectionOffsetTop)
-
-//       if (pageYOffset >= sectionOffsetTop && pageYOffset < sectionOffsetTop + sectionHeight) {
-//         newActiveSection = section.id;
-//       }
-//     });
-
-//     setActiveSection(newActiveSection);
-//   }
-
-//   useEffect(() => {
-//     sectionsRef.current = document.querySelectorAll('[data-section]');
-//     window.addEventListener('scroll', handleScroll);
-
-//     return () => {
-//       window.removeEventListener('scroll', handleScroll);
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     if (!initialized) {
-//       const sectionId = window.location.hash.slice(1);
-//       if (sectionId) {
-//         setActiveSection(sectionId);
-//       }
-//       setInitialized(true);
-//     }
-//   }, [initialized]);
-
-//   const handleSmoothScroll = (event, sectionId) => {
-//     event.preventDefault();
-//     setActiveSection(sectionId);
-//     const sectionsArray = Array.from(sectionsRef.current); // Convertir en un arreglo
-//     const section = sectionsArray.find((section) => section.id === sectionId);
-//     if (section) {
-//       const topOffset = section.offsetTop - 100; // Restar el margen superior
-//       window.scrollTo({
-//         top: topOffset,
-//         behavior: 'smooth',
-//       });
-//     }
-//   };
-
-//   return (
-//     <header>
-//       <img className="logo" src={Logo} alt="Dimension Fungi" />
-//       <nav>
-//         <ul className="navbar">
-//           <li><a href="#inicio" className={activeSection === 'inicio' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'inicio')}>Inicio</a></li>
-//           <li><a href="#beneficios" className={activeSection === 'beneficios' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'beneficios')}>Beneficios</a></li>
-//           <li><a href="#datos-cientificos" className={activeSection === 'datos-cientificos' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'datos-cientificos')}>Datos Científicos</a></li>
-//           <li><a href="#estandares" className={activeSection === 'estandares' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'estandares')}>Estándares de Calidad</a></li>
-//           <li><a href="#testimonios" className={activeSection === 'testimonios' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'testimonios')}>Testimonios</a></li>
-//           <li><a href="#comprar" className={activeSection === 'comprar' ? 'selected' : ''} onClick={(event) => handleSmoothScroll(event, 'comprar')}>Comprar</a></li>
-//         </ul>
-//       </nav>
-//     </header>
-//   );
-// }
-
-// export default Navbar;
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/logo.png';
@@ -143,6 +60,10 @@ function Navbar() {
     }
   };
 
+  const activeClassName = (sectionName) => {
+    return activeSection === sectionName ? 'selected' : ''
+  }
+
   return (
     <>
       <header>
@@ -152,7 +73,7 @@ function Navbar() {
             <li>
               <Link
                 to="#inicio"
-                className={activeSection === 'inicio' ? 'selected' : ''}
+                className={activeClassName('inicio')}
                 onClick={(event) => handleSmoothScroll(event, 'inicio')}
               >
                 Inicio
@@ -161,7 +82,7 @@ function Navbar() {
             <li>
               <Link
                 to="#beneficios"
-                className={activeSection === 'beneficios' ? 'selected' : ''}
+                className={activeClassName('beneficios')}
                 onClick={(event) => handleSmoothScroll(event, 'beneficios')}
               >
                 Beneficios
@@ -170,7 +91,7 @@ function Navbar() {
             <li>
               <Link
                 to="#datos-cientificos"
-                className={activeSection === 'datos-cientificos' ? 'selected' : ''}
+                className={activeClassName('datos-cientificos')}
                 onClick={(event) => handleSmoothScroll(event, 'datos-cientificos')}
               >
                 Datos cientificos
@@ -179,7 +100,7 @@ function Navbar() {
             <li>
               <Link
                 to="#estandares"
-                className={activeSection === 'estandares' ? 'selected' : ''}
+                className={activeClassName('estandares')}
                 onClick={(event) => handleSmoothScroll(event, 'estandares')}
               >
                 Estandares de calidad
@@ -188,7 +109,7 @@ function Navbar() {
             <li>
               <Link
                 to="#testimonios"
-                className={activeSection === 'testimonios' ? 'selected' : ''}
+                className={activeClassName('testimonios')}
                 onClick={(event) => handleSmoothScroll(event, 'testimonios')}
               >
                 Testimonios
@@ -197,7 +118,7 @@ function Navbar() {
             <li>
               <Link
                 to="#comprar"
-                className={activeSection === 'comprar' ? 'selected' : ''}
+                className={activeClassName('comprar')}
                 onClick={(event) => handleSmoothScroll(event, 'comprar')}
               >
                 Comprar
